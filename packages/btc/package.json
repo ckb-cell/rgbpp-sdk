@@ -3,18 +3,30 @@
   "version": "0.4.0",
   "scripts": {
     "test": "vitest",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsup",
     "lint": "tsc && eslint '{src,tests}/**/*.{js,ts}' && prettier --check '{src,tests}/**/*.{js,ts}'",
-    "lint:fix": "tsc && eslint --fix '{src,tests}/**/*.{js,ts}' && prettier --write '{src,tests}/**/*.{js,ts}'",
-    "clean": "pnpm run clean:cache & pnpm run clean:build",
-    "clean:build": "rimraf lib && pnpm run clean:buildinfo",
-    "clean:buildinfo": "rimraf tsconfig.*tsbuildinfo",
-    "clean:cache": "rimraf .turbo"
+    "lint:fix": "tsc && eslint --fix '{src,tests}/**/*.{js,ts}' && prettier --write '{src,tests}/**/*.{js,ts}'"
   },
-  "main": "lib",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "lib"
+    "src",
+    "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
     "@ckb-lumos/codec": "0.22.2",
@@ -26,10 +38,6 @@
     "ecpair": "^2.1.0",
     "lodash": "^4.17.21",
     "p-limit": "^3.1.0"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.17.0",
-    "vitest": "^1.4.0"
   },
   "publishConfig": {
     "access": "public"

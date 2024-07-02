@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nervosnetwork/ckb-sdk-utils": "^0.109.1",
-    "rgbpp": "^0.3.0"
+    "rgbpp": "^0.4.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",

@@ -3,20 +3,31 @@
   "version": "0.4.0",
   "scripts": {
     "test": "vitest",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsup",
     "lint": "tsc && eslint --ext .ts {src,example}/* && prettier --check '{src,example}/**/*.{js,ts}'",
     "lint:fix": "tsc && eslint --fix --ext .ts {src,example}/* && prettier --write '{src,example}/**/*.{js,ts}'",
-    "splitCells": "npx ts-node example/paymaster.ts",
-    "clean": "pnpm run clean:cache & pnpm run clean:build",
-    "clean:build": "rimraf lib && pnpm run clean:buildinfo",
-    "clean:buildinfo": "rimraf tsconfig.*tsbuildinfo",
-    "clean:cache": "rimraf .turbo"
+    "splitCells": "npx ts-node example/paymaster.ts"
   },
-  "main": "lib",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "lib"
+    "src",
+    "dist"
   ],
-  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "dependencies": {
     "@ckb-lumos/base": "^0.22.2",
     "@ckb-lumos/codec": "^0.22.2",
@@ -31,9 +42,7 @@
     "js-sha256": "^0.11.0"
   },
   "devDependencies": {
-    "@ckb-lumos/molecule": "^0.22.2",
-    "@types/lodash": "^4.17.0",
-    "vitest": "^1.4.0"
+    "@ckb-lumos/molecule": "^0.22.2"
   },
   "publishConfig": {
     "access": "public"

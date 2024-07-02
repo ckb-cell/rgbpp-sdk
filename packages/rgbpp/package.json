@@ -2,37 +2,61 @@
   "name": "rgbpp",
   "version": "0.4.0",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsup",
     "lint": "tsc && eslint --ext .ts src/* && prettier --check 'src/*.ts'",
-    "lint:fix": "tsc && eslint --fix --ext .ts src/* && prettier --write 'src/*.ts'",
-    "clean": "pnpm run clean:cache & pnpm run clean:build",
-    "clean:build": "rimraf lib && pnpm run clean:buildinfo",
-    "clean:buildinfo": "rimraf tsconfig.*tsbuildinfo",
-    "clean:cache": "rimraf .turbo"
+    "lint:fix": "tsc && eslint --fix --ext .ts src/* && prettier --write 'src/*.ts'"
   },
-  "main": "lib",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./btc": {
-      "types": "./lib/btc.d.ts",
-      "default": "./lib/btc.js"
+      "import": {
+        "types": "./dist/btc.d.ts",
+        "default": "./dist/btc.js"
+      },
+      "require": {
+        "types": "./dist/btc.d.cts",
+        "default": "./dist/btc.cjs"
+      }
     },
     "./ckb": {
-      "types": "./lib/ckb.d.ts",
-      "default": "./lib/ckb.js"
+      "import": {
+        "types": "./dist/ckb.d.ts",
+        "default": "./dist/ckb.js"
+      },
+      "require": {
+        "types": "./dist/ckb.d.cts",
+        "default": "./dist/ckb.cjs"
+      }
     },
     "./service": {
-      "types": "./lib/service.d.ts",
-      "default": "./lib/service.js"
-    }
+      "import": {
+        "types": "./dist/service.d.ts",
+        "default": "./dist/service.js"
+      },
+      "require": {
+        "types": "./dist/service.d.cts",
+        "default": "./dist/service.cjs"
+      }
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
-  "files": [
-    "lib"
-  ],
-  "types": "./lib/index.d.ts",
   "dependencies": {
     "@rgbpp-sdk/btc": "workspace:*",
     "@rgbpp-sdk/ckb": "workspace:*",
